@@ -60,6 +60,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 mSocket.emit("message", "{\""+username+"\":\""+message.getText().toString().trim()+ "\"}");
+                message.setText("");
             }
         });
         mSocket.on("receive",onNewMessage);
