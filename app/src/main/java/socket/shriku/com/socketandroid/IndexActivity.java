@@ -8,6 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 
 public class IndexActivity extends ActionBarActivity {
@@ -17,6 +19,7 @@ public class IndexActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_index);
         name = (EditText)findViewById(R.id.name);
         ok_button = (Button)findViewById(R.id.ok_button);

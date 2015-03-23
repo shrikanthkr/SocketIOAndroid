@@ -36,7 +36,9 @@ public class MainActivity extends ActionBarActivity {
     ListView chatListView;
     {
         try {
-            mSocket = IO.socket("http://192.168.56.1:3000");
+            
+            mSocket = IO.socket("http://androidsocketio.herokuapp.com");
+            //mSocket = IO.socket("http://192.168.56.1:3000");
         } catch (URISyntaxException e) {
         }
     }
@@ -56,11 +58,12 @@ public class MainActivity extends ActionBarActivity {
         send_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSocket.emit("message", "{\""+username+"\":\""+message.getText()+ "\"}");
+                mSocket.emit("message", "{\""+username+"\":\""+message.getText().toString().trim()+ "\"}");
             }
         });
         mSocket.on("receive",onNewMessage);
         chatListView.setAdapter(adapter);
+        getSupportActionBar().setTitle("Chat");
     }
 
 
@@ -96,8 +99,6 @@ public class MainActivity extends ActionBarActivity {
                     text = text.replaceAll("\\\\", "");
                     text = text.substring(1);
                     text = text.substring(0, text.length()-1);
-                    Log.d("TAG",text);
-                    Log.d("TAG","{\"Shrikanth\":\"yo\"}");
                     try {
                         JSONObject jsonObj = new JSONObject(text);
 
