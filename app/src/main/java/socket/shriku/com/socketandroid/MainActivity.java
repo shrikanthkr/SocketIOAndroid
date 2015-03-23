@@ -16,6 +16,7 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     ListView chatListView;
     {
         try {
-            
+
             mSocket = IO.socket("http://androidsocketio.herokuapp.com");
             //mSocket = IO.socket("http://192.168.56.1:3000");
         } catch (URISyntaxException e) {
@@ -62,6 +63,7 @@ public class MainActivity extends ActionBarActivity {
             }
         });
         mSocket.on("receive",onNewMessage);
+        mSocket.on("intial_data",intialData);
         chatListView.setAdapter(adapter);
         getSupportActionBar().setTitle("Chat");
     }
@@ -88,7 +90,39 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private Emitter.Listener intialData = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String text = (String) args[0];
 
+                    try {
+                        JSONArray jsonArray = new JSONArray(text);
+
+                        for(int i=0;i<jsonArray.length();i++){
+                            JSONObject jsonObj =  new JSONObject(jsonArray.getString(i).replaceAll("\\\\", ""));
+                            Iterator keys = jsonObj.keys();
+                            while(keys.hasNext()){
+                                String key = (String)keys.next();
+                                Chat chat = new Chat();
+                                chat.setUsername(key);
+                                chat.setMessage((String)jsonObj.get(key));
+                                chats.add(chat);
+                                adapter.notifyDataSetChanged();
+
+                                // Toast.makeText(activity,chats.size()+"",Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    };
     private Emitter.Listener onNewMessage = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
