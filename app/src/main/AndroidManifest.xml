@@ -9,11 +9,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name="socket.shriku.com.SocketApplication"
         android:theme="@style/AppTheme" >
 
 
         <activity
-            android:name=".IndexActivity"
+            android:name="socket.shriku.com.activities.SigninActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,10 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="0d49e5d4028eeb9be6fba4c81c0e1f93c8731b88" />
