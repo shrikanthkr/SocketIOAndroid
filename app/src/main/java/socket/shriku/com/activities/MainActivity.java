@@ -1,46 +1,49 @@
-package socket.shriku.com.socketandroid;
+package socket.shriku.com.activities;
 
-import android.content.Intent;
+import android.app.Activity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
-import socket.shriku.com.activities.MainActivity;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import socket.shriku.com.socketandroid.R;
 
 
-public class IndexActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity {
 
-    EditText name;
-    Button ok_button;
+    Activity activity = this;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_index);
-        name = (EditText)findViewById(R.id.name);
-        ok_button = (Button)findViewById(R.id.ok_button);
-        ok_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("name",name.getText().toString());
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
+        setContentView(R.layout.activity_main);
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_index, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -57,5 +60,11 @@ public class IndexActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
     }
 }
