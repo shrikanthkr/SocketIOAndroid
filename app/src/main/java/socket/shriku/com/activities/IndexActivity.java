@@ -1,38 +1,33 @@
-package socket.shriku.com.socketandroid;
+package socket.shriku.com.activities;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import com.crashlytics.android.Crashlytics;
-import io.fabric.sdk.android.Fabric;
+
+import socket.shriku.com.adapters.IndexFragmentAdapter;
+import socket.shriku.com.socketandroid.R;
 
 
 public class IndexActivity extends ActionBarActivity {
 
-    EditText name;
-    Button ok_button;
+    IndexFragmentAdapter adapter;
+    ViewPager mViewPager;
+    ActionBar actionBar = getSupportActionBar();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+
+
         setContentView(R.layout.activity_index);
-        name = (EditText)findViewById(R.id.name);
-        ok_button = (Button)findViewById(R.id.ok_button);
-        ok_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
-                Bundle b = new Bundle();
-                b.putString("name",name.getText().toString());
-                i.putExtras(b);
-                startActivity(i);
-            }
-        });
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        adapter = new IndexFragmentAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(adapter);
+
+
     }
 
 
