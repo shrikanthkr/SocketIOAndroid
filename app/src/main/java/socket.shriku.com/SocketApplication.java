@@ -5,14 +5,10 @@ import android.app.Application;
 import android.os.Bundle;
 
 
-import socket.shriku.com.SocketSingleton;
-
-
-
 /**
  * Created by shrikanth on 19/4/15.
  */
-public class SocketApplication extends Application implements Application.ActivityLifecycleCallbacks{
+public class SocketApplication extends Application implements Application.ActivityLifecycleCallbacks {
 
     @Override
     public void onCreate() {
