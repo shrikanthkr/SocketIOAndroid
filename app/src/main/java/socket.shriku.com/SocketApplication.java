@@ -4,20 +4,24 @@ import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
 
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 
-import java.net.URISyntaxException;
+import socket.shriku.com.SocketSingleton;
+
+
 
 /**
  * Created by shrikanth on 19/4/15.
  */
 public class SocketApplication extends Application implements Application.ActivityLifecycleCallbacks{
 
-    boolean inForeground;
     @Override
     public void onCreate() {
         super.onCreate();
+        try {
+            SocketSingleton.getInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,7 +65,4 @@ public class SocketApplication extends Application implements Application.Activi
 
     }
 
-    public boolean isInForeground() {
-        return inForeground;
-    }
 }

@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import com.crashlytics.android.Crashlytics;
 import io.fabric.sdk.android.Fabric;
-import socket.shriku.com.activities.MainActivity;
+import socket.shriku.com.activities.SigninActivity;
 
 
 public class IndexActivity extends ActionBarActivity {
@@ -27,7 +27,7 @@ public class IndexActivity extends ActionBarActivity {
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(),MainActivity.class);
+                Intent i = new Intent(getApplicationContext(),SigninActivity.class);
                 Bundle b = new Bundle();
                 b.putString("name",name.getText().toString());
                 i.putExtras(b);
