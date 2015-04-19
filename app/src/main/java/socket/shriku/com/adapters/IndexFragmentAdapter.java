@@ -14,9 +14,15 @@ import socket.shriku.com.fragments.UserDetailsFragment;
  */
 public class IndexFragmentAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "Index Adapter";
+    private static String title[] = {"Contacts", "Chat", "Details"};
 
     public IndexFragmentAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return title[position];
     }
 
     @Override

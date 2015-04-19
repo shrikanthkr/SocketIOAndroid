@@ -1,7 +1,9 @@
 package socket.shriku.com.activities;
 
+
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,14 +16,17 @@ public class IndexActivity extends ActionBarActivity {
 
     IndexFragmentAdapter adapter;
     ViewPager mViewPager;
+    ActionBar actionBar = getSupportActionBar();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         setContentView(R.layout.activity_index);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new IndexFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
+
 
     }
 
