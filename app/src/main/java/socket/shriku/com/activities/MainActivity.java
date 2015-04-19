@@ -30,12 +30,23 @@ import socket.shriku.com.socketandroid.R;
 public class MainActivity extends ActionBarActivity {
 
     Activity activity = this;
-
+    EditText userName;
+    EditText password
+    Button signin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        userName = (EditText)findViewById(R.id.user_name);
+        password = (EditText)findViewById(R.id.password);
+        signin = (Button)findViewById(R.id.signin);
+        signin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity.getApplicationContext(),"Clicked",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 
