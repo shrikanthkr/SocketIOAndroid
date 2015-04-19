@@ -1,31 +1,23 @@
 package socket.shriku.com.activities;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.transition.Visibility;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.models.User;
@@ -34,13 +26,44 @@ import socket.shriku.com.socketandroid.R;
 
 public class SigninActivity extends ActionBarActivity {
 
+    private static final String TAG = "Main ACtivity";
     Activity activity = this;
+    private Emitter.Listener onAuth = new Emitter.Listener() {
+
+        @Override
+        public void call(final Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            Log.d(TAG, data.toString());
+            if (data.has("error")) {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        error.setVisibility(View.VISIBLE);
+                        Toast.makeText(activity.getApplicationContext(), "Invalid credentials", Toast.LENGTH_LONG).show();
+                    }
+                });
+
+            } else {
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
+                        Log.d(TAG, User.getInstance().user_name);
+                        Intent i = new Intent(activity, IndexActivity.class);
+                        activity.startActivity(i);
+                        activity.finish();
+                    }
+                });
+            }
+
+        }
+    };
     EditText userNameEditText;
     EditText passwordEditText;
     Button signin;
     String userName, password;
     TextView error;
-    private static final String TAG = "Main ACtivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +72,7 @@ public class SigninActivity extends ActionBarActivity {
         userNameEditText = (EditText) findViewById(R.id.user_name);
         passwordEditText = (EditText) findViewById(R.id.password);
         signin = (Button) findViewById(R.id.signin);
-        error = (TextView)findViewById(R.id.error);
+        error = (TextView) findViewById(R.id.error);
         try {
             SocketSingleton.getInstance().mSocket.on("auth", onAuth);
         } catch (Exception e) {
@@ -79,7 +102,6 @@ public class SigninActivity extends ActionBarActivity {
 
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -107,33 +129,4 @@ public class SigninActivity extends ActionBarActivity {
         super.onDestroy();
 
     }
-
-    private Emitter.Listener onAuth = new Emitter.Listener() {
-
-        @Override
-        public void call(final Object... args) {
-            JSONObject data = (JSONObject) args[0];
-            Log.d(TAG,data.toString());
-                if(data.has("error")){
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            error.setVisibility(View.VISIBLE);
-                            Toast.makeText(activity.getApplicationContext(),"Invalid credentials", Toast.LENGTH_LONG).show();
-                        }
-                    });
-
-                }else{
-                    activity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
-                            Log.d(TAG, User.getInstance().user_name);
-                        }
-                    });
-                }
-
-        }
-    };
 }
