@@ -13,9 +13,9 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <!--<item name="colorControlNormal">@color/edittext_base</item>
+        <item name="colorControlNormal">@color/edittext_base</item>
         <item name="colorControlActivated">@color/edittext_highlighted</item>
-        <item name="colorControlHighlight">@color/button_ripple</item>
+        <!--<item name="colorControlHighlight">@color/button_ripple</item>
         <item name="colorButtonNormal">@color/button_bg</item>-->
     </style>
 
