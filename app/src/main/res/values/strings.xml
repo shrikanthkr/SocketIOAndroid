@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">SocketAndroid</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_index">IndexActivity</string>]
+    <string name="title_activity_index">IndexActivity</string>
     <string name="title_activity_main">Chat Room</string>
     <string name="sign_in">Sign in</string>
+    <string name="dont_have_account">Don\'t have an Account\?</string>
+    <string name="forgot_password">Forgot Password\?</string>
+    <string name="sign_up">Sign up</string>
 </resources>
