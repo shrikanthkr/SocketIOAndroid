@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- pressed state -->
+    <item android:state_pressed="true">
+        <inset xmlns:android="http://schemas.android.com/apk/res/android"
+            android:insetLeft="@dimen/button_inset_horizontal"
+            android:insetTop="@dimen/button_inset_vertical"
+            android:insetRight="@dimen/button_inset_horizontal"
+            android:insetBottom="@dimen/button_inset_vertical">
+            <shape android:shape="rectangle">
+                <stroke android:color="@color/button_bg" android:width="1dp" />
+                <corners android:radius="@dimen/control_corner" />
+                <solid android:color="@color/button_press_bg" />
+                <padding android:left="@dimen/button_padding_horizontal"
+                    android:top="@dimen/button_padding_vertical"
+                    android:right="@dimen/button_padding_horizontal"
+                    android:bottom="@dimen/button_padding_vertical" />
+            </shape>
+        </inset>
+    </item>
+
+    <!-- focused state -->
+    <item android:state_focused="true">
+        <inset xmlns:android="http://schemas.android.com/apk/res/android"
+            android:insetLeft="@dimen/button_inset_horizontal"
+            android:insetTop="@dimen/button_inset_vertical"
+            android:insetRight="@dimen/button_inset_horizontal"
+            android:insetBottom="@dimen/button_inset_vertical">
+            <shape android:shape="rectangle">
+                <stroke android:color="@color/button_bg" android:width="1dp" />
+                <corners android:radius="@dimen/control_corner" />
+                <solid android:color="@color/button_press_bg" />
+                <padding android:left="@dimen/button_padding_horizontal"
+                    android:top="@dimen/button_padding_vertical"
+                    android:right="@dimen/button_padding_horizontal"
+                    android:bottom="@dimen/button_padding_vertical" />
+            </shape>
+        </inset>
+    </item>
+
+    <!-- normal state -->
+    <item>
+        <inset xmlns:android="http://schemas.android.com/apk/res/android"
+            android:insetLeft="@dimen/button_inset_horizontal"
+            android:insetTop="@dimen/button_inset_vertical"
+            android:insetRight="@dimen/button_inset_horizontal"
+            android:insetBottom="@dimen/button_inset_vertical">
+            <shape android:shape="rectangle">
+                <stroke android:color="@color/button_bg" android:width="1dp" />
+                <corners android:radius="@dimen/control_corner" />
+                <solid android:color="@color/button_bg" />
+                <padding android:left="@dimen/button_padding_horizontal"
+                    android:top="@dimen/button_padding_vertical"
+                    android:right="@dimen/button_padding_horizontal"
+                    android:bottom="@dimen/button_padding_vertical" />
+            </shape>
+        </inset>
+    </item>
+</selector>

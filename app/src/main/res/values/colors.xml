@@ -8,4 +8,6 @@
     <color name="button_press_bg">#512DA8</color>
     <color name="edittext_base">#E0E0E0</color>
     <color name="edittext_highlighted">#7E57C2</color>
+    <color name="separator_color">#E0E0E0</color>
+    <color name="light_text_color">#A0A0A0</color>
 </resources>
