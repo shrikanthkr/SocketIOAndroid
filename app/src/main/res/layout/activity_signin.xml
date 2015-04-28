@@ -1,46 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity">
 
-    <TextView
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+        <socket.shriku.com.views.CustomTextViewBold
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:layout_gravity="center"
+            android:textSize="20sp"
+            android:textColor="@android:color/white" />
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Invalid Username or Password"
-        android:visibility="invisible"
-        android:id="@+id/error" />
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+        <socket.shriku.com.views.CustomTextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/base_text_color"
+            android:text="Invalid Username or Password"
+            android:visibility="invisible"
+            android:layout_marginTop="100dp"
+            android:id="@+id/error" />
 
-    <EditText
-        android:id="@+id/user_name"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="shrikanth"
-        android:hint="Username" />
+        <socket.shriku.com.views.CustomEditText
+            android:id="@+id/user_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/base_text_color"
+            android:textColorHint="@color/hint_color"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:drawableLeft="@drawable/ic_email"
+            android:text="shrikanth"
+            android:hint="Username" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="fill_parent"
-        android:inputType="textPassword"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_height="wrap_content"
-        android:text="admin123"
-        android:hint="Password" />
+        <socket.shriku.com.views.CustomEditText
+            android:id="@+id/password"
+            android:layout_width="fill_parent"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/hint_color"
+            android:textColor="@color/base_text_color"
+            android:drawableLeft="@drawable/ic_lock"
+            android:text="admin123"
+            android:hint="Password" />
 
-    <Button
-        android:id="@+id/signin"
-        android:layout_width="fill_parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:layout_height="wrap_content"
-        android:text="Sign In" />
+        <socket.shriku.com.views.CustomButton
+            android:id="@+id/signin"
+            android:layout_width="fill_parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_bg"
+            android:textColor="@drawable/button_text"
+            android:textAllCaps="false"
+            android:text="@string/sign_in" />
 
-
-
-</LinearLayout>
+        <socket.shriku.com.views.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:textColor="@color/base_text_color"
+            android:text="@string/forgot_password"
+            android:textSize="17sp" />
+    </LinearLayout>
+</RelativeLayout>

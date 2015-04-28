@@ -47,7 +47,6 @@ public class SigninActivity extends ActionBarActivity {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
                         Log.d(TAG, User.getInstance().user_name);
                         Intent i = new Intent(activity, IndexActivity.class);
@@ -56,7 +55,6 @@ public class SigninActivity extends ActionBarActivity {
                     }
                 });
             }
-
         }
     };
     EditText userNameEditText;
@@ -127,6 +125,5 @@ public class SigninActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
     }
 }

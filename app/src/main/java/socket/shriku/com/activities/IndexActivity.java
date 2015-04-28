@@ -27,7 +27,6 @@ public class IndexActivity extends ActionBarActivity {
         adapter = new IndexFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
 
-
     }
 
 
