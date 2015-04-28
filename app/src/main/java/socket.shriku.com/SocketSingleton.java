@@ -11,23 +11,26 @@ import com.github.nkzawa.socketio.client.Socket;
  */
 public class SocketSingleton {
 
+    private static final String TAG = "Socket Singleton";
     public static Socket mSocket = null;
     private static SocketSingleton mInstance;
-    private static final String TAG = "Socket Songleton";
+
     private SocketSingleton() throws Exception {
-            mSocket = IO.socket("http://androidsocketio.herokuapp.com");
-            mSocket.connect();
+        //192.168.56.1:3000
+        //http://androidsocketio.herokuapp.com
+        mSocket = IO.socket("http://192.168.56.1:3000");
+        mSocket.connect();
     }
 
-    public static SocketSingleton getInstance() throws Exception{
-        if(mSocket == null){
+    public static SocketSingleton getInstance() throws Exception {
+        if (mSocket == null) {
             mInstance = new SocketSingleton();
             Log.d(TAG, "creating new isntance");
         }
-    return mInstance;
+        return mInstance;
     }
 
-    public Socket getSocket(){
+    public Socket getSocket() {
         return mSocket;
     }
 }

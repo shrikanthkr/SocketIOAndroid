@@ -13,12 +13,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.fabric.sdk.android.Fabric;
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.models.User;
 import socket.shriku.com.socketandroid.R;
@@ -66,6 +68,7 @@ public class SigninActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_signin);
         userNameEditText = (EditText) findViewById(R.id.user_name);
         passwordEditText = (EditText) findViewById(R.id.password);

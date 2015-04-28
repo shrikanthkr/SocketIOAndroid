@@ -8,11 +8,16 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
 import socket.shriku.com.adapters.IndexFragmentAdapter;
+import socket.shriku.com.fragments.ChatFragment;
+import socket.shriku.com.fragments.ChatListFragment;
+import socket.shriku.com.models.Message;
 import socket.shriku.com.socketandroid.R;
 
 
-public class IndexActivity extends ActionBarActivity {
+public class IndexActivity extends ActionBarActivity implements ChatListFragment.ChatSelecteListener {
 
     IndexFragmentAdapter adapter;
     ViewPager mViewPager;
@@ -50,5 +55,11 @@ public class IndexActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onChatSelected(ArrayList<Message> messages) {
+        ((ChatFragment) adapter.getRegisteredFragment(1)).updateView(this, messages);
+        mViewPager.setCurrentItem(1, true);
     }
 }

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
+import android.util.SparseArray;
 
 import socket.shriku.com.fragments.ChatFragment;
 import socket.shriku.com.fragments.ChatListFragment;
@@ -15,7 +16,7 @@ import socket.shriku.com.fragments.UserDetailsFragment;
 public class IndexFragmentAdapter extends FragmentStatePagerAdapter {
     private static final String TAG = "Index Adapter";
     private static String title[] = {"Contacts", "Chat", "Details"};
-
+    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     public IndexFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -33,6 +34,7 @@ public class IndexFragmentAdapter extends FragmentStatePagerAdapter {
 
             case 0:
                 fragment = ChatListFragment.newInstance();
+
                 break;
             case 1:
                 fragment = ChatFragment.newInstance();
@@ -45,11 +47,16 @@ public class IndexFragmentAdapter extends FragmentStatePagerAdapter {
                 break;
 
         }
+        registeredFragments.put(position, fragment);
         return fragment;
     }
 
     @Override
     public int getCount() {
         return 3;
+    }
+
+    public Fragment getRegisteredFragment(int position) {
+        return registeredFragments.get(position);
     }
 }
