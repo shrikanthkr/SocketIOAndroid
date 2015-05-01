@@ -34,15 +34,18 @@ import socket.shriku.com.socketandroid.R;
  */
 public class ChatListFragment extends Fragment {
 
-    ArrayList<Room> rooms;
     private static final String TAG = "Chatlist Fragment";
+    ArrayList<Room> rooms;
+    ChatSelecteListener chatSelectListener;
+    ChatListAdapter adapter;
+    ListView lv;
     private Emitter.Listener onMessageIndex = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
             JSONArray data = (JSONArray) args[0];
             Log.d(TAG, data.toString());
-            if (data == null || data.length() <= 0) {
+            if (data == null) {
 
             } else {
                 @SuppressWarnings("serial")
@@ -61,7 +64,6 @@ public class ChatListFragment extends Fragment {
 
         }
     };
-
     private Emitter.Listener onRoomsContacts = new Emitter.Listener() {
 
         @Override
@@ -87,9 +89,6 @@ public class ChatListFragment extends Fragment {
 
         }
     };
-    ChatSelecteListener chatSelectListener;
-    ChatListAdapter adapter;
-    ListView lv;
 
     public ChatListFragment() {
         // Required empty public constructor
@@ -165,8 +164,8 @@ public class ChatListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "******************Resuming**************");
-        adapter = new ChatListAdapter(getActivity(), rooms);
-        lv.postInvalidate();
+
+
     }
 
     public interface ChatSelecteListener {

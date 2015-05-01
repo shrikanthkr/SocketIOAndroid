@@ -31,6 +31,7 @@ public class IndexActivity extends ActionBarActivity implements ChatListFragment
         mViewPager = (ViewPager) findViewById(R.id.pager);
         adapter = new IndexFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
+        mViewPager.setOffscreenPageLimit(3);
 
     }
 

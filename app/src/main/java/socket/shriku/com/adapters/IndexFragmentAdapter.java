@@ -29,18 +29,31 @@ public class IndexFragmentAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         Fragment fragment;
+        ChatListFragment chatListFragment = null;
+        ChatFragment chatFragment = null;
+        UserDetailsFragment userDetailsFragment = null;
         Log.d(TAG, position + " Item");
         switch (position) {
 
             case 0:
-                fragment = ChatListFragment.newInstance();
+                if (chatListFragment == null)
+                    fragment = chatListFragment = ChatListFragment.newInstance();
+                else
+                    fragment = chatListFragment;
 
                 break;
             case 1:
-                fragment = ChatFragment.newInstance();
+                if (chatListFragment == null)
+                    fragment = chatFragment = ChatFragment.newInstance();
+                else
+                    fragment = chatFragment;
                 break;
             case 2:
-                fragment = UserDetailsFragment.newInstance();
+                if (userDetailsFragment == null)
+                    fragment = userDetailsFragment = UserDetailsFragment.newInstance();
+                else
+                    fragment = userDetailsFragment;
+
                 break;
             default:
                 fragment = ChatListFragment.newInstance();
