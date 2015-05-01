@@ -22,8 +22,8 @@ public class ChatListAdapter extends BaseAdapter {
     ArrayList<Room> rooms;
     LayoutInflater inflater;
 
-    public ChatListAdapter(Activity activity) {
-        rooms = User.getInstance().rooms;
+    public ChatListAdapter(Activity activity, ArrayList<Room> rooms) {
+        this.rooms =rooms;
         inflater = LayoutInflater.from(activity);
     }
 

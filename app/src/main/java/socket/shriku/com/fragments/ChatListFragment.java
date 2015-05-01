@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.adapters.ChatListAdapter;
 import socket.shriku.com.models.Message;
+import socket.shriku.com.models.Room;
 import socket.shriku.com.socketandroid.R;
 
 /**
@@ -33,7 +34,7 @@ import socket.shriku.com.socketandroid.R;
  */
 public class ChatListFragment extends Fragment {
 
-
+    ArrayList<Room> rooms;
     private static final String TAG = "Chatlist Fragment";
     private Emitter.Listener onMessageIndex = new Emitter.Listener() {
 
@@ -56,6 +57,32 @@ public class ChatListFragment extends Fragment {
                     }
                 });
 
+            }
+
+        }
+    };
+
+    private Emitter.Listener onRoomsContacts = new Emitter.Listener() {
+
+        @Override
+        public void call(final Object... args) {
+            JSONArray data = (JSONArray) args[0];
+            Log.d(TAG, data.toString());
+            if (data == null || data.length() <= 0) {
+
+            } else {
+                Type collectionType = new TypeToken<ArrayList<Room>>() {
+                }.getType();
+                 rooms = new Gson().fromJson(data.toString(), collectionType);
+                adapter = new ChatListAdapter(getActivity(),rooms);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        lv.setAdapter(adapter);
+                    }
+                });
+
+                Log.d(TAG, rooms.size() + "");
             }
 
         }
@@ -87,8 +114,14 @@ public class ChatListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.chat_list_fragment, container, false);
         lv = (ListView) v.findViewById(R.id.rooms_listview);
-        adapter = new ChatListAdapter(getActivity());
-        lv.setAdapter(adapter);
+
+        try {
+            SocketSingleton.getInstance().mSocket.on("rooms:contacts", onRoomsContacts);
+            SocketSingleton.getInstance().mSocket.emit("rooms:contacts",new JSONArray("[\"123456789\"]").toString() );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -132,7 +165,7 @@ public class ChatListFragment extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(TAG, "******************Resuming**************");
-        adapter = new ChatListAdapter(getActivity());
+        adapter = new ChatListAdapter(getActivity(), rooms);
         lv.postInvalidate();
     }
 

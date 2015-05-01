@@ -29,7 +29,6 @@ public class User {
         if (mInstance == null) {
             mInstance = new User(user);
             Log.d(TAG, "creating new user" + mInstance.user_name);
-            Log.d(TAG, "creating new Rooms:" + mInstance.rooms.size());
         }
         return mInstance;
     }
