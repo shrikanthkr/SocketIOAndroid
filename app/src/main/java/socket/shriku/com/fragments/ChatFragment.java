@@ -126,7 +126,7 @@ public class ChatFragment extends Fragment {
         Log.d(TAG, "******************Update Chat View**************");
         this.messages.add(message);
         adapter.notifyDataSetChanged();
-
+        this.message.setText("");
     }
 
 }
