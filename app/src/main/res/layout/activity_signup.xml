@@ -1,0 +1,95 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary">
+
+        <socket.shriku.com.views.CustomTextViewBold
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="80dp">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <socket.shriku.com.views.CustomTextView
+                android:id="@+id/error"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="100dp"
+                android:text="Invalid Username or Password"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/base_text_color"
+                android:visibility="invisible" />
+
+            <socket.shriku.com.views.CustomEditText
+                android:id="@+id/user_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:drawableLeft="@drawable/ic_email"
+                android:hint="Username"
+                android:text="shrikanth"
+                android:textColor="@color/base_text_color"
+                android:textColorHint="@color/hint_color" />
+
+            <socket.shriku.com.views.CustomEditText
+                android:id="@+id/password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:drawableLeft="@drawable/ic_lock"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:text="admin123"
+                android:textColor="@color/base_text_color"
+                android:textColorHint="@color/hint_color" />
+
+
+            <socket.shriku.com.views.CustomEditText
+                android:id="@+id/phone_number"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:drawableLeft="@drawable/ic_lock"
+                android:hint="@string/phone_number"
+                android:inputType="textPassword"
+                android:textColor="@color/base_text_color"
+                android:textColorHint="@color/hint_color" />
+
+
+            <socket.shriku.com.views.CustomButton
+                android:id="@+id/signup"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/activity_horizontal_margin"
+                android:background="@drawable/button_bg"
+                android:text="@string/sign_up"
+                android:textAllCaps="false"
+                android:textColor="@drawable/button_text" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

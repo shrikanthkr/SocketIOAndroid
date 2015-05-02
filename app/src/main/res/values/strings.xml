@@ -8,5 +8,8 @@
     <string name="dont_have_account">Don\'t have an Account\?</string>
     <string name="forgot_password">Forgot Password\?</string>
     <string name="sign_up">Sign up</string>
+    <string name="new_user">New User</string>
     <string name="or">Or</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
+

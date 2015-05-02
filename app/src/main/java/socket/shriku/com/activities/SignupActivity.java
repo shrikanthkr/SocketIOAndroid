@@ -1,9 +1,11 @@
 package socket.shriku.com.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.github.nkzawa.emitter.Emitter;
@@ -26,28 +27,33 @@ import socket.shriku.com.models.User;
 import socket.shriku.com.socketandroid.R;
 
 
-public class SigninActivity extends ActionBarActivity {
+public class SignupActivity extends ActionBarActivity {
 
     private static final String TAG = "Main ACtivity";
     Activity activity = this;
+
     EditText userNameEditText;
     EditText passwordEditText;
-    Button signin;
-    Button newUser;
-    String userName, password;
+    EditText phoneNumberEditText;
+    Button signup;
+    String userName, password, phoneNumber;
     TextView error;
-    private Emitter.Listener onAuth = new Emitter.Listener() {
+    private Emitter.Listener onCreate = new Emitter.Listener() {
 
         @Override
         public void call(final Object... args) {
-            JSONObject data = (JSONObject) args[0];
+            final JSONObject data = (JSONObject) args[0];
             Log.d(TAG, data.toString());
             if (data.has("error")) {
                 activity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         error.setVisibility(View.VISIBLE);
-                        Toast.makeText(activity.getApplicationContext(), "Invalid credentials", Toast.LENGTH_LONG).show();
+                        try {
+                            error.setText(data.getString("error"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
@@ -63,6 +69,8 @@ public class SigninActivity extends ActionBarActivity {
                     }
                 });
             }
+
+
         }
     };
 
@@ -70,36 +78,35 @@ public class SigninActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_signup);
         userNameEditText = (EditText) findViewById(R.id.user_name);
         passwordEditText = (EditText) findViewById(R.id.password);
-        signin = (Button) findViewById(R.id.signin);
-        newUser = (Button) findViewById(R.id.new_user);
+        phoneNumberEditText = (EditText) findViewById(R.id.phone_number);
+        signup = (Button) findViewById(R.id.signup);
         error = (TextView) findViewById(R.id.error);
         try {
-            SocketSingleton.getInstance().mSocket.on("auth", onAuth);
+            SocketSingleton.getInstance().mSocket.on("user:create", onCreate);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        newUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(activity, SignupActivity.class);
-                startActivity(i);
-            }
-        });
-        signin.setOnClickListener(new View.OnClickListener() {
+        TelephonyManager phoneManager = (TelephonyManager)
+                getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
+        phoneNumber = phoneManager.getLine1Number();
+        phoneNumberEditText.setText(phoneNumber);
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 userName = userNameEditText.getText().toString().trim();
                 password = passwordEditText.getText().toString();
+                phoneNumber = phoneNumberEditText.getText().toString();
                 error.setVisibility(View.INVISIBLE);
                 JSONObject object = new JSONObject();
                 try {
                     object.put("user_name", userName);
                     object.put("password", password);
+                    object.put("phone_number", phoneNumber);
 
-                    SocketSingleton.getInstance().mSocket.emit("auth", object.toString());
+                    SocketSingleton.getInstance().mSocket.emit("user:create", object.toString());
                     Log.d(TAG, object.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,5 +144,11 @@ public class SigninActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
     }
 }
