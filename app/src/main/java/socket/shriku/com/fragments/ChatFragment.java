@@ -8,10 +8,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import com.github.nkzawa.emitter.Emitter;
+import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.adapters.ChatAdapter;
 import socket.shriku.com.models.Message;
 import socket.shriku.com.socketandroid.R;
@@ -24,6 +33,24 @@ public class ChatFragment extends Fragment {
     ChatAdapter adapter;
     ListView lv;
     View v;
+    Button send_button;
+    ArrayList<Message> messages;
+    EditText message;
+    TextView to_id;
+    Emitter.Listener onNewMessage = new Emitter.Listener() {
+        @Override
+        public void call(Object... args) {
+            final JSONObject data = (JSONObject) args[0];
+            Log.d(TAG, data.toString());
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    updateChat(new Gson().fromJson(data.toString(), Message.class));
+                }
+            });
+        }
+    };
+
     public ChatFragment() {
         // Required empty public constructor
     }
@@ -40,7 +67,31 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.chat_fragment, container, false);
+        send_button = (Button) v.findViewById(R.id.send);
+        message = (EditText) v.findViewById(R.id.message);
+        to_id = (TextView) v.findViewById(R.id.to_id);
+        send_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message_string = message.getText().toString().trim();
+                if (message_string.length() > 0) {
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("to", to_id.getText().toString());
+                        object.put("message", message_string);
+                        SocketSingleton.getInstance().mSocket.emit("messages:new", object.toString());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        try {
 
+            SocketSingleton.getInstance().mSocket.off("messages:new").on("messages:new", onNewMessage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return v;
     }
 
@@ -61,14 +112,21 @@ public class ChatFragment extends Fragment {
 
     }
 
-
-    public void updateView(Activity activity, ArrayList<Message> messages) {
+    public void updateView(Activity activity, ArrayList<Message> messages, String selected_room) {
         Log.d(TAG, "******************updateView**************");
-        adapter = new ChatAdapter(activity, messages);
+        this.messages = messages;
+        adapter = new ChatAdapter(activity, this.messages);
         lv = (ListView) v.findViewById(R.id.chats_listview);
+        to_id = (TextView) v.findViewById(R.id.to_id);
         lv.setAdapter(adapter);
+        to_id.setText(selected_room);
     }
 
+    public void updateChat(Message message) {
+        Log.d(TAG, "******************Update Chat View**************");
+        this.messages.add(message);
+        adapter.notifyDataSetChanged();
 
+    }
 
 }

@@ -59,8 +59,8 @@ public class IndexActivity extends ActionBarActivity implements ChatListFragment
     }
 
     @Override
-    public void onChatSelected(ArrayList<Message> messages) {
-        ((ChatFragment) adapter.getRegisteredFragment(1)).updateView(this, messages);
+    public void onChatSelected(ArrayList<Message> messages, String selected_room) {
+        ((ChatFragment) adapter.getRegisteredFragment(1)).updateView(this, messages, selected_room);
         mViewPager.setCurrentItem(1, true);
     }
 }

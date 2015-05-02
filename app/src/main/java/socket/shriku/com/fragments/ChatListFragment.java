@@ -42,6 +42,7 @@ public class ChatListFragment extends Fragment {
     ChatSelecteListener chatSelectListener;
     ChatListAdapter adapter;
     ListView lv;
+    String selected_room;
     private Emitter.Listener onMessageIndex = new Emitter.Listener() {
 
         @Override
@@ -58,7 +59,7 @@ public class ChatListFragment extends Fragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        chatSelectListener.onChatSelected(messages);
+                        chatSelectListener.onChatSelected(messages, selected_room);
                     }
                 });
 
@@ -85,7 +86,7 @@ public class ChatListFragment extends Fragment {
                         lv.setAdapter(adapter);
                     }
                 });
-
+                selected_room = rooms.get(0).name;
                 Log.d(TAG, rooms.size() + "");
             }
 
@@ -95,7 +96,7 @@ public class ChatListFragment extends Fragment {
     public ChatListFragment() {
         // Required empty public constructor
         try {
-            SocketSingleton.getInstance().mSocket.on("messages:index", onMessageIndex);
+            SocketSingleton.getInstance().mSocket.off("messages:index").on("messages:index", onMessageIndex);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -117,7 +118,7 @@ public class ChatListFragment extends Fragment {
         lv = (ListView) v.findViewById(R.id.rooms_listview);
 
         try {
-            SocketSingleton.getInstance().mSocket.on("rooms:contacts", onRoomsContacts);
+            SocketSingleton.getInstance().mSocket.off("rooms:contacts").on("rooms:contacts", onRoomsContacts);
             SocketSingleton.getInstance().mSocket.emit("rooms:contacts", getPhoneNumbers());
 
         } catch (Exception e) {
@@ -131,6 +132,7 @@ public class ChatListFragment extends Fragment {
                 JSONObject object = new JSONObject();
                 try {
                     object.put("room_name", tv.getText().toString());
+                    selected_room = tv.getText().toString();
                     SocketSingleton.getInstance().mSocket.emit("messages:index", object.toString());
                     Log.d(TAG, object.toString());
                 } catch (JSONException e) {
@@ -198,7 +200,7 @@ public class ChatListFragment extends Fragment {
     }
 
     public interface ChatSelecteListener {
-        void onChatSelected(ArrayList<Message> messages);
+        void onChatSelected(ArrayList<Message> messages, String selected_room);
 
     }
 }

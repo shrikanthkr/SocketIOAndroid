@@ -2,6 +2,7 @@ package socket.shriku.com.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -24,6 +25,7 @@ import io.fabric.sdk.android.Fabric;
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.models.User;
 import socket.shriku.com.socketandroid.R;
+import socket.shriku.com.util.Preferences;
 
 
 public class SigninActivity extends ActionBarActivity {
@@ -58,6 +60,9 @@ public class SigninActivity extends ActionBarActivity {
                         User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
                         Log.d(TAG, User.getInstance().user_name);
                         Intent i = new Intent(activity, IndexActivity.class);
+                        SharedPreferences.Editor editor = Preferences.INSTANCE.getPreferences(activity).edit();
+                        editor.putString("user", args[0].toString());
+                        editor.commit();
                         activity.startActivity(i);
                         activity.finish();
                     }

@@ -13,12 +13,16 @@ public class User {
     public String _id;
     public String user_name;
     public String password;
+    public String token;
+
+
     public ArrayList<Room> rooms;
 
     private User(User user) {
         this.user_name = user.user_name;
         this.password = user.password;
         this.rooms = user.rooms;
+        this.token = user.token;
     }
 
     public static User getInstance() {
