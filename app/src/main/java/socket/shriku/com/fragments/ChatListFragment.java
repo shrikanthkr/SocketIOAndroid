@@ -1,8 +1,11 @@
 package socket.shriku.com.fragments;
 
 import android.app.Activity;
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +55,6 @@ public class ChatListFragment extends Fragment {
                 Type collectionType = new TypeToken<ArrayList<Message>>() {
                 }.getType();
                 final ArrayList<Message> messages = new Gson().fromJson(data.toString(), collectionType);
-                Log.d(TAG, messages.size() + "");
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -116,7 +118,8 @@ public class ChatListFragment extends Fragment {
 
         try {
             SocketSingleton.getInstance().mSocket.on("rooms:contacts", onRoomsContacts);
-            SocketSingleton.getInstance().mSocket.emit("rooms:contacts",new JSONArray("[\"123456789\"]").toString() );
+            SocketSingleton.getInstance().mSocket.emit("rooms:contacts", getPhoneNumbers());
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -168,8 +171,34 @@ public class ChatListFragment extends Fragment {
 
     }
 
+    private String getPhoneNumbers() {
+        ContentResolver cr = getActivity().getContentResolver(); //Activity/Application android.content.Context
+        Cursor cursor = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+        ArrayList<String> alContacts = new ArrayList<String>();
+        if (cursor.moveToFirst()) {
+
+            do {
+                String id = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+
+                if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                    Cursor pCur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?", new String[]{id}, null);
+                    while (pCur.moveToNext()) {
+                        String contactNumber = pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        contactNumber = contactNumber.replaceAll("[()\\s-]", "");
+                        alContacts.add(contactNumber);
+                        break;
+                    }
+                    pCur.close();
+                }
+
+            } while (cursor.moveToNext());
+        }
+        Log.d(TAG, "******************Gettign contacts**************");
+        return new Gson().toJson(alContacts).toString();
+    }
+
     public interface ChatSelecteListener {
-        public void onChatSelected(ArrayList<Message> messages);
+        void onChatSelected(ArrayList<Message> messages);
 
     }
 }
