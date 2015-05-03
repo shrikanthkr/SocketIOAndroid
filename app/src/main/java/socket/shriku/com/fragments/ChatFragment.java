@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.nkzawa.emitter.Emitter;
 import com.google.gson.Gson;
@@ -74,15 +75,18 @@ public class ChatFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String message_string = message.getText().toString().trim();
-                if (message_string.length() > 0) {
+                String to = to_id.getText().toString();
+                if (message_string.length() > 0 && to != null && to.length() > 0) {
                     try {
                         JSONObject object = new JSONObject();
-                        object.put("to", to_id.getText().toString());
+                        object.put("to", to);
                         object.put("message", message_string);
                         SocketSingleton.getInstance().mSocket.emit("messages:new", object.toString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                } else {
+                    Toast.makeText(getActivity(), "Please select a contact", Toast.LENGTH_LONG).show();
                 }
             }
         });

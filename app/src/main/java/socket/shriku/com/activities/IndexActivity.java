@@ -2,11 +2,14 @@ package socket.shriku.com.activities;
 
 
 import android.os.Bundle;
+import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,6 +25,7 @@ public class IndexActivity extends ActionBarActivity implements ChatListFragment
     IndexFragmentAdapter adapter;
     ViewPager mViewPager;
     ActionBar actionBar = getSupportActionBar();
+    PagerTitleStrip tabStrip;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,9 +33,34 @@ public class IndexActivity extends ActionBarActivity implements ChatListFragment
 
         setContentView(R.layout.activity_index);
         mViewPager = (ViewPager) findViewById(R.id.pager);
+        tabStrip = (PagerTitleStrip) findViewById(R.id.pager_title_strip);
         adapter = new IndexFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(adapter);
         mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        tabStrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 

@@ -18,7 +18,8 @@ public class SocketSingleton {
     private SocketSingleton() throws Exception {
         //192.168.56.1:3000
         //http://androidsocketio.herokuapp.com
-        mSocket = IO.socket("http://192.168.56.1:3000");
+        // mSocket = IO.socket("http://192.168.56.1:3000");
+        mSocket = IO.socket("http://androidsocketio.herokuapp.com");
         mSocket.connect();
     }
 
