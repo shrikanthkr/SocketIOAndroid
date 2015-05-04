@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.models.User;
+import socket.shriku.com.util.CustomProgressBar;
 import socket.shriku.com.util.Preferences;
 
 /**
@@ -26,16 +27,18 @@ public class SplashActivity extends Activity {
 
         @Override
         public void call(final Object... args) {
-            JSONObject data = (JSONObject) args[0];
+            final JSONObject data = (JSONObject) args[0];
             Log.d(TAG, data.toString());
-            if (data.has("error")) {
-                Intent i = new Intent(activity, SigninActivity.class);
-                startActivity(i);
-                finish();
-            } else {
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    CustomProgressBar.close();
+                    if (data.has("error")) {
+                        Intent i = new Intent(activity, SigninActivity.class);
+                        startActivity(i);
+                        finish();
+                    } else {
+
                         User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
                         Log.d(TAG, User.getInstance().user_name);
                         Intent i = new Intent(activity, IndexActivity.class);
@@ -44,9 +47,10 @@ public class SplashActivity extends Activity {
                         editor.commit();
                         activity.startActivity(i);
                         activity.finish();
+
                     }
-                });
-            }
+                }
+            });
         }
     };
 
@@ -61,6 +65,7 @@ public class SplashActivity extends Activity {
             try {
                 SocketSingleton.getInstance().mSocket.off("users:token_auth").on("users:token_auth", onTokenAuth);
                 SocketSingleton.getInstance().mSocket.emit("users:token_auth", " {\"token\" : \"" + User.getInstance().token + "\"}");
+                CustomProgressBar.show(activity);
             } catch (Exception e) {
                 e.printStackTrace();
             }

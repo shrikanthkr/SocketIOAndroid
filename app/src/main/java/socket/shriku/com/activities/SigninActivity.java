@@ -25,6 +25,7 @@ import io.fabric.sdk.android.Fabric;
 import socket.shriku.com.SocketSingleton;
 import socket.shriku.com.models.User;
 import socket.shriku.com.socketandroid.R;
+import socket.shriku.com.util.CustomProgressBar;
 import socket.shriku.com.util.Preferences;
 
 
@@ -50,6 +51,7 @@ public class SigninActivity extends ActionBarActivity {
                     public void run() {
                         error.setVisibility(View.VISIBLE);
                         Toast.makeText(activity.getApplicationContext(), "Invalid credentials", Toast.LENGTH_LONG).show();
+                        CustomProgressBar.close();
                     }
                 });
 
@@ -63,6 +65,7 @@ public class SigninActivity extends ActionBarActivity {
                         SharedPreferences.Editor editor = Preferences.INSTANCE.getPreferences(activity).edit();
                         editor.putString("user", args[0].toString());
                         editor.commit();
+                        CustomProgressBar.close();
                         activity.startActivity(i);
                         activity.finish();
                     }
@@ -105,6 +108,7 @@ public class SigninActivity extends ActionBarActivity {
                     object.put("password", password);
 
                     SocketSingleton.getInstance().mSocket.emit("auth", object.toString());
+                    CustomProgressBar.show(activity);
                     Log.d(TAG, object.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();

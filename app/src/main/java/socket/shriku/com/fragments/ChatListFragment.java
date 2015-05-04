@@ -31,6 +31,7 @@ import socket.shriku.com.adapters.ChatListAdapter;
 import socket.shriku.com.models.Message;
 import socket.shriku.com.models.Room;
 import socket.shriku.com.socketandroid.R;
+import socket.shriku.com.util.CustomProgressBar;
 
 /**
  * Created by shrikanth on 18/4/15.
@@ -43,6 +44,7 @@ public class ChatListFragment extends Fragment {
     ChatListAdapter adapter;
     ListView lv;
     String selected_room;
+    View v;
     private Emitter.Listener onMessageIndex = new Emitter.Listener() {
 
         @Override
@@ -71,24 +73,29 @@ public class ChatListFragment extends Fragment {
 
         @Override
         public void call(final Object... args) {
-            JSONArray data = (JSONArray) args[0];
+            final JSONArray data = (JSONArray) args[0];
             Log.d(TAG, data.toString());
-            if (data == null || data.length() <= 0) {
 
-            } else {
-                Type collectionType = new TypeToken<ArrayList<Room>>() {
-                }.getType();
-                 rooms = new Gson().fromJson(data.toString(), collectionType);
-                adapter = new ChatListAdapter(getActivity(),rooms);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                    if (data == null || data.length() <= 0) {
+
+                    } else {
+                        Type collectionType = new TypeToken<ArrayList<Room>>() {
+                        }.getType();
+                        rooms = new Gson().fromJson(data.toString(), collectionType);
+                        adapter = new ChatListAdapter(getActivity(), rooms);
                         lv.setAdapter(adapter);
+
+                        selected_room = rooms.get(0).name;
+                        Log.d(TAG, rooms.size() + "");
                     }
-                });
-                selected_room = rooms.get(0).name;
-                Log.d(TAG, rooms.size() + "");
-            }
+                    CustomProgressBar.close();
+
+                }
+            });
 
         }
     };
@@ -114,13 +121,13 @@ public class ChatListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.chat_list_fragment, container, false);
+        v = inflater.inflate(R.layout.chat_list_fragment, container, false);
         lv = (ListView) v.findViewById(R.id.rooms_listview);
 
         try {
             SocketSingleton.getInstance().mSocket.off("rooms:contacts").on("rooms:contacts", onRoomsContacts);
             SocketSingleton.getInstance().mSocket.emit("rooms:contacts", getPhoneNumbers());
-
+            CustomProgressBar.show(getActivity());
         } catch (Exception e) {
             e.printStackTrace();
         }
