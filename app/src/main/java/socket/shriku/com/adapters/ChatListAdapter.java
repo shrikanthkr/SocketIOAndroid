@@ -10,7 +10,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import socket.shriku.com.models.Room;
-import socket.shriku.com.models.User;
 import socket.shriku.com.socketandroid.R;
 
 /**
@@ -56,11 +55,15 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         holder.room_name = (TextView) convertView.findViewById(R.id.room_name);
+        holder.initial = (TextView) convertView.findViewById(R.id.initial);
         holder.room_name.setText(rooms.get(position).name.toString());
+        holder.initial.setText(rooms.get(position).name.toString().substring(0, 2).toUpperCase());
         return convertView;
     }
 
     private class ViewHolder {
         public TextView room_name;
+        public TextView initial;
     }
 }
+

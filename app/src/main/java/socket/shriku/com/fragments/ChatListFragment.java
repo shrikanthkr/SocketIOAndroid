@@ -62,6 +62,7 @@ public class ChatListFragment extends Fragment {
                     @Override
                     public void run() {
                         chatSelectListener.onChatSelected(messages, selected_room);
+                        CustomProgressBar.close();
                     }
                 });
 
@@ -140,6 +141,7 @@ public class ChatListFragment extends Fragment {
                 try {
                     object.put("room_name", tv.getText().toString());
                     selected_room = tv.getText().toString();
+                    CustomProgressBar.show(getActivity());
                     SocketSingleton.getInstance().mSocket.emit("messages:index", object.toString());
                     Log.d(TAG, object.toString());
                 } catch (JSONException e) {

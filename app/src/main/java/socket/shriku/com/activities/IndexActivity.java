@@ -52,7 +52,6 @@ public class IndexActivity extends ActionBarActivity implements ChatListFragment
             }
         });
 
-
     }
 
 

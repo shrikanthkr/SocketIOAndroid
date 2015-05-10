@@ -6,7 +6,8 @@
     </style>
 
     <style name="MyTheme" parent="Theme.AppCompat">
-        <item name="android:colorBackground">@android:color/white</item>
+        <item name="android:background">@color/white_opaque</item>
+        <item name="android:colorBackground">@color/white_opaque</item>
         <item name="colorPrimary">@color/base</item>
         <item name="colorPrimaryDark">@color/base_dark</item>
         <item name="android:textColorPrimary">@android:color/white</item>
