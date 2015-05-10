@@ -5,8 +5,9 @@ package socket.shriku.com.models;
  */
 public class Message {
     public String _id;
-    public String sender;
+    public String from;
     public String message;
     public String to;
+    public Room room;
 }
 

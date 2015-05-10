@@ -8,7 +8,8 @@ import java.util.ArrayList;
 public class Room {
     public String _id;
     public String name;
-    public String user_id;
-    public ArrayList<Message> messages;
+    public String owner;
+    public ArrayList<String> messages = new ArrayList<>();
+    public ArrayList<User> members = new ArrayList<>();
 
 }

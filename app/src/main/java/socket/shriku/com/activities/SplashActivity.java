@@ -28,29 +28,36 @@ public class SplashActivity extends Activity {
         @Override
         public void call(final Object... args) {
             final JSONObject data = (JSONObject) args[0];
-            Log.d(TAG, data.toString());
-            activity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    CustomProgressBar.close();
-                    if (data.has("error")) {
-                        Intent i = new Intent(activity, SigninActivity.class);
-                        startActivity(i);
-                        finish();
-                    } else {
+            if (data == null) {
+                Intent i = new Intent(activity, SigninActivity.class);
+                startActivity(i);
+                finish();
+            } else {
+                Log.d(TAG, data.toString());
+                activity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        CustomProgressBar.close();
+                        if (data.has("error")) {
+                            Intent i = new Intent(activity, SigninActivity.class);
+                            startActivity(i);
+                            finish();
+                        } else {
 
-                        User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
-                        Log.d(TAG, User.getInstance().user_name);
-                        Intent i = new Intent(activity, IndexActivity.class);
-                        SharedPreferences.Editor editor = Preferences.INSTANCE.getPreferences(activity).edit();
-                        editor.putString("user", args[0].toString());
-                        editor.commit();
-                        activity.startActivity(i);
-                        activity.finish();
+                            User.createInstance(new Gson().fromJson(args[0].toString(), User.class));
+                            Log.d(TAG, User.getInstance().user_name);
+                            Intent i = new Intent(activity, IndexActivity.class);
+                            SharedPreferences.Editor editor = Preferences.INSTANCE.getPreferences(activity).edit();
+                            editor.putString("user", args[0].toString());
+                            editor.commit();
+                            activity.startActivity(i);
+                            activity.finish();
 
+                        }
                     }
-                }
-            });
+                });
+            }
+
         }
     };
 

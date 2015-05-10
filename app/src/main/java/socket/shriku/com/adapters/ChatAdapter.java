@@ -57,7 +57,7 @@ public class ChatAdapter extends BaseAdapter {
         holder.message = (TextView) convertView.findViewById(R.id.message);
 
         Message message = messages.get(position);
-        holder.sender.setText(message.sender);
+        holder.sender.setText(message.from);
         holder.to.setText(message.to);
         holder.message.setText(message.message);
 

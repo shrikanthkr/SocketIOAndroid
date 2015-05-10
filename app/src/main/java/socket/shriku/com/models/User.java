@@ -30,10 +30,9 @@ public class User {
     }
 
     public static User createInstance(User user) {
-        if (mInstance == null) {
+        mInstance = null;
             mInstance = new User(user);
             Log.d(TAG, "creating new user" + mInstance.user_name);
-        }
         return mInstance;
     }
 }
